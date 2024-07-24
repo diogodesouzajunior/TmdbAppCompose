@@ -2,11 +2,23 @@ package com.example.tmdbapp.presentation.movie_details
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Divider
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
@@ -40,7 +52,7 @@ import com.example.tmdbapp.presentation.movie_details.components.ItemCastCard
 import com.example.tmdbapp.presentation.view_all.components.ToolBar
 import com.example.tmdbapp.utils.formattedYear
 import com.example.tmdbapp.utils.minuteToTime
-import java.util.*
+import java.util.Locale
 
 @Composable
 fun MovieDetailsScreen(
@@ -62,7 +74,7 @@ fun MovieDetailsScreen(
             if (details.id != null && cast.id != null) {
                 LazyColumn(content = {
                     item { ItemPoster(details) }
-                    item { ItemTitle(navController,details, videos) }
+                    item { ItemTitle(navController, details, videos) }
                     item { ItemOverview(details) }
                     item { ItemCast(cast) }
                 })
@@ -105,7 +117,11 @@ fun ItemPoster(response: MovieDetailsResponse) {
 }
 
 @Composable
-fun ItemTitle( navController: NavController,response: MovieDetailsResponse, videos: GetVideosResponse) {
+fun ItemTitle(
+    navController: NavController,
+    response: MovieDetailsResponse,
+    videos: GetVideosResponse
+) {
 
     Spacer(modifier = Modifier.height(20.dp))
 
@@ -189,35 +205,37 @@ fun ItemTitle( navController: NavController,response: MovieDetailsResponse, vide
             modifier = Modifier.padding(start = 10.dp, end = 15.dp)
         )
 
-        Divider(
-            modifier = Modifier
-                .height(20.dp)
-                .width(3.dp)
-                .background(Color.LightGray)
-        )
-
-        Row(
-            modifier = Modifier
-                .clickable(onClick = {
-                    val item = videos.results?.last { it?.type == "Trailer" }
-                    navController.navigate(Screen.YoutubePlayerScreen.route + "youtubeCode=${item?.key}")
-                })
-                .padding(start = 15.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                imageVector = Icons.Default.PlayArrow,
-                contentDescription = stringResource(id = R.string.description),
-                tint = Color.Black,
-                modifier = Modifier.size(18.dp)
-            )
-            Text(
-                text = "Play Trailer",
-                style = MaterialTheme.typography.body1,
-                maxLines = 1,
-                modifier = Modifier.padding(end = 10.dp)
+        if (videos.results?.isNotEmpty() == true) {
+            Divider(
+                modifier = Modifier
+                    .height(20.dp)
+                    .width(3.dp)
+                    .background(Color.LightGray)
             )
 
+            Row(
+                modifier = Modifier
+                    .clickable(onClick = {
+                        val item = videos.results.last { it?.type == "Trailer" }
+                        navController.navigate(Screen.YoutubePlayerScreen.route + "youtubeCode=${item?.key}")
+                    })
+                    .padding(start = 15.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = Icons.Default.PlayArrow,
+                    contentDescription = stringResource(id = R.string.description),
+                    tint = Color.Black,
+                    modifier = Modifier.size(18.dp)
+                )
+                Text(
+                    text = "Play Trailer",
+                    style = MaterialTheme.typography.body1,
+                    maxLines = 1,
+                    modifier = Modifier.padding(end = 10.dp)
+                )
+
+            }
         }
     }
 
@@ -262,5 +280,3 @@ fun ItemCast(credits: MovieCreditsResponse) {
     })
     Spacer(modifier = Modifier.height(15.dp))
 }
-
-
