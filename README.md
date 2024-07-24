@@ -27,16 +27,6 @@ TMDB_API_KEY="YOUR_API_KEY"
 - [Lottie Files for Compose](https://github.com/airbnb/lottie) - Parses Adobe After Effects animations exported as JSON with Bodymovin and renders them natively on mobile and web platforms.
 - [Compose Pagination](https://developer.android.com/jetpack/androidx/releases/paging) - Helps in gradually and efficiently loading data within your app.
 
-## Installation Instructions
-
-To install this application on your Android device, download the signed APK using the following link in your browser:
-
-```
-https://github.com/Ajinkrishnak/TmdbAppCompose/releases/download/v0.1.0-alpha/tmdb-app.apk
-```
-
-The download will start automatically. Once downloaded, install the app on your Android device.
-
 Note: The application supports Android version 5.0 (Lollipop) or higher.
 
 Supported SDK levels
